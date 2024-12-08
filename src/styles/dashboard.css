@@ -1,0 +1,21 @@
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-gap: 20px; 
+    height: 100vh; 
+}
+
+.left-panel {
+    background: #f4f4f4; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.right-panel {
+    display: grid;
+    grid-template-rows: 1fr 1fr; 
+    height: 100%; 
+}
+
+
