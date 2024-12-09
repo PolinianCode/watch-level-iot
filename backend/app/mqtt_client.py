@@ -14,7 +14,6 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     print(f"Received message on {msg.topic}: {str(msg.payload.decode('utf-8'))}")
-    # Use the loop in the asyncio thread to execute handle_message
     asyncio.run_coroutine_threadsafe(handle_message(msg), mqtt_loop)
 
 async def handle_message(msg):
@@ -37,7 +36,7 @@ async def handle_message(msg):
     await broadcaster.broadcast(f"{percents}")
 
 def start_mqtt_client():
-    global mqtt_loop  # Global variable to hold the asyncio event loop
+    global mqtt_loop 
     mqtt_loop = asyncio.new_event_loop()
     asyncio.set_event_loop(mqtt_loop)
 
@@ -53,10 +52,10 @@ def start_mqtt_client():
     mqtt_client.on_message = on_message
 
     mqtt_client.connect(settings.AWS_IOT_ENDPOINT, 8883, 60)
-    mqtt_client.loop_start()  # Start the MQTT client loop in a background thread
+    mqtt_client.loop_start() 
 
     try:
-        mqtt_loop.run_forever()  # Run the asyncio event loop
+        mqtt_loop.run_forever()  
     except KeyboardInterrupt:
         print("Shutting down MQTT client")
     finally:

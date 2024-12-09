@@ -8,6 +8,7 @@
 .left-panel {
     background: #f4f4f4; 
     display: flex; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }

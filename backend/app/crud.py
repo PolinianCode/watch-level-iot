@@ -1,4 +1,5 @@
-from .models import SessionLocal, Measurement
+from .models import SessionLocal, Measurement, Limits
+
 
 def add_measurement(value):
     db = SessionLocal()
@@ -10,3 +11,7 @@ def add_measurement(value):
         return new_measurement
     finally:
         db.close()
+
+def get_last_slider_limits():
+    db = SessionLocal()
+    return db.query(Limits).order_by(Limits.id.desc()).first()

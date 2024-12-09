@@ -4,6 +4,9 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from threading import Thread
 from .mqtt_client import start_mqtt_client
 from .dependencies import get_broadcaster
+from pydantic import BaseModel
+from .models import Limits, SessionLocal
+from .crud import get_last_slider_limits
 
 app = FastAPI()
 
@@ -26,7 +29,6 @@ def startup_event():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
 
-    # Register the WebSocket connection with the broadcaster
     broadcaster = get_broadcaster()
     await broadcaster.connect(websocket)
 
@@ -42,3 +44,36 @@ async def websocket_endpoint(websocket: WebSocket):
         print(f"Error: {e}")
     finally:
         print("Connection closed")
+
+class LevelLimits(BaseModel):
+    lowerLimit: int
+    upperLimit: int
+
+@app.post("/level_limits")
+async def set_level_limits(level_limits: LevelLimits):
+    lower_limit = level_limits.lowerLimit
+    upper_limit = level_limits.upperLimit
+
+    db = SessionLocal()
+
+    new_limit = Limits(low = lower_limit, high = upper_limit)
+
+    db.add(new_limit)
+    db.commit()
+    db.refresh(new_limit)
+    
+
+    print(f"Received level limits: Lower: {lower_limit}, Upper: {upper_limit}")
+
+    return {"status": "success", "message": "Level limits updated"}
+
+
+@app.get("/level_limits")
+async def get_level_limits():
+    db = SessionLocal()
+
+    last_limits = get_last_slider_limits()
+    if last_limits:
+        return {"lowerLimit": last_limits.low, "upperLimit": last_limits.high}
+    else:
+        return {"lowerLimit": 20, "upperLimit": 80}

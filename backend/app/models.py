@@ -10,11 +10,17 @@ class Measurement(Base):
     __tablename__ = 'measurements_iot'
     id = Column(Integer, primary_key=True, index=True)
     value = Column(Float)
-    timestamp = Column(DateTime, default=func.now())  # Automatically set timestamp on creation
+    timestamp = Column(DateTime, default=func.now()) 
 
-# PostgreSQL engine
+
+class Limits(Base):
+    __tablename__ = 'measument_limits'
+    id = Column(Integer, primary_key=True, index=True)
+    low = Column(Integer)
+    high = Column(Integer)
+
+
 engine = create_engine(settings.DATABASE_URL, echo=True, pool_size=20, max_overflow=0)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
-# Create tables if they don't already exist
 Base.metadata.create_all(engine)
