@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+sqlalchemy
+paho-mqtt
+python-dotenv
+psycopg2
+pydantic-settings
