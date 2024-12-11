@@ -29,10 +29,8 @@ class Broadcaster:
             try:
                 await connection.send_text(message)
             except:
-                # If connection fails, remove it from the set
                 self.connections.remove(connection)
 
-# Global broadcaster instance
 broadcaster_instance = Broadcaster()
 
 def get_broadcaster():

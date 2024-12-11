@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     AWS_CERT: str
     AWS_PRIVATE_KEY: str
     MQTT_TOPIC: str
+    MQTT_TOPIC_LED: str
     DATABASE_URL: str
 
     class Config:

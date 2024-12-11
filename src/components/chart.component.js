@@ -20,26 +20,45 @@ const HistoricalDataChart = () => {
 
   const fetchData = async () => {
     if (startDate && endDate) {
-      const url = `https://your-server.com/api/data?start=${startDate}&end=${endDate}`;
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
+      const response = await fetch('http://3.73.1.47:8000/history', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            start_date: startDate,
+            end_date: endDate,
+        }),
+    });
 
-        setChartData({
-          labels: data.map(d => d.label),
-          datasets: [
-            {
-              ...chartData.datasets[0],
-              data: data.map(d => d.value)
-            }
-          ]
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    if (!response.ok) {
+        throw new Error('Failed to send data to backend');
+    }
+
+    const data = await response.json();
+    console.log('Backend response:', data);
+
+    const labels = data.data.map(item => item.timestamp);  
+    const values = data.data.map(item => item.value);      
+
+
+    setChartData({
+      labels: labels,
+      datasets: [
+        {
+          label: 'Dane historyczne',
+          data: values,
+          fill: false,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+        }
+      ]
+    });
+      
     } else {
       console.log("Please select both start and end dates.");
     }
+
   };
 
   return (

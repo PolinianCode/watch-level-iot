@@ -11,7 +11,7 @@ export const SliderProvider = ({ children }) => {
 
     const sendSliderValuesToBackend = async () => {
         try {
-            const response = await fetch('http://192.168.31.64:8000/level_limits', {
+            const response = await fetch('http://3.73.1.47:8000/level_limits', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

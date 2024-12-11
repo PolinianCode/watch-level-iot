@@ -12,7 +12,7 @@ function SliderComponent() {
     useEffect(() => {
         const fetchLastLimits = async () => {
             try {
-                const response = await fetch('http://192.168.31.64:8000/level_limits');
+                const response = await fetch('http://3.73.1.47:8000/level_limits');
                 if (!response.ok) {
                     throw new Error('Failed to fetch level limits');
                 }

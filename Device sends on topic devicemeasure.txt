@@ -1,0 +1,20 @@
+Device sends on topic device/measurements
+
+{
+	"level": 75
+}
+
+Set level limits
+
+{
+	"lowerLimit": 75,
+	"upperLimit": 90
+}
+
+data history
+
+{
+    "start_date": "2024-12-11",
+    "end_date": "2024-12-11"
+}
+

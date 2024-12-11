@@ -10,7 +10,7 @@ function Dashboard() {
     const { sliderValue } = useSlider();
 
     useEffect(() => {
-        const ws = new WebSocket('ws://192.168.31.64:8000/ws');
+        const ws = new WebSocket('ws://3.73.1.47:8000/ws');
 
         ws.onopen = () => {
             console.log('Connected to WebSocket');
